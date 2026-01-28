@@ -5,7 +5,7 @@ seeds = false
 skip-lint = false
 
 [programs.mainnet]
-sentinel = "NorthSentinel11111111111111111111111111111"
+sentinel = "zeJyNvmriogt1zPFMMPN6quHjy7YEAXKphsNdpJn11a"
 
 [registry]
 url = "https://api.apr.dev"
