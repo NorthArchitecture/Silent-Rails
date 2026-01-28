@@ -6,7 +6,7 @@ declare_id!("NorthSentinel11111111111111111111111111111");
 pub mod sentinel {
     use super::*;
 
-    // Initialise le "Silent Handshake" pour fragmenter les données
+    // Initialize silent handshake for data fragmentation protocol
     pub fn initialize_handshake(ctx: Context<InitializeHandshake>, fragment_id: u64) -> Result<()> {
         let handshake = &mut ctx.accounts.handshake;
         handshake.authority = *ctx.accounts.authority.key;
@@ -17,7 +17,7 @@ pub mod sentinel {
         Ok(())
     }
 
-    // Fonction pour sceller les rails de confidentialité (Protocol 03)
+    // Seal privacy rails (Protocol 03) for high-velocity execution
     pub fn seal_privacy_rail(ctx: Context<SealRail>) -> Result<()> {
         let rail = &mut ctx.accounts.rail;
         rail.is_sealed = true;
@@ -29,14 +29,14 @@ pub mod sentinel {
 
 #[account]
 pub struct HandshakeState {
-    pub authority: Pubkey,   // L'Architecte ou l'entité
-    pub fragment_id: u64,    // ID du micro-paquet (Protocol 01)
+    pub authority: Pubkey,
+    pub fragment_id: u64,
     pub is_active: bool,
 }
 
 #[account]
 pub struct RailState {
-    pub is_sealed: bool,     // État du Silent Rail (Protocol 03)
+    pub is_sealed: bool,
 }
 
 #[derive(Accounts)]
