@@ -24,7 +24,7 @@ North Architecture is engineered for institutional-grade reliability. We leverag
 ### 🛠️ Quick Start
 ```bash
 # Clone the repository
-git clone [https://github.com/NorthArchitecture/Silent-Rails](https://github.com/NorthArchitecture/Silent-Rails)
+git clone https://github.com/NorthArchitecture/Silent-Rails
 
 # Navigate to the program
 cd programs/sentinel
