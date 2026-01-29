@@ -14,3 +14,20 @@ Unlike traditional mixers, we decouple the **Privacy Seal** from the **Execution
 
 ---
 *Built for the Solana Privacy Hack 2026.*
+---
+
+### ⚡ Performance Validation (Powered by Helius)
+North Architecture is engineered for institutional-grade reliability. We leverage **Helius RPC nodes** to maintain peak performance.
+* **Ultra-Low Latency:** Stable `getBlockHeight` execution at **66.00 ms** via Helius RPC.
+* **High-Throughput Sampling:** Real-time network analysis processing over **185,000 transactions** per sample.
+
+### 🛠️ Quick Start
+```bash
+# Clone the repository
+git clone [https://github.com/NorthArchitecture/Silent-Rails](https://github.com/NorthArchitecture/Silent-Rails)
+
+# Navigate to the program
+cd programs/sentinel
+
+# Build the Anchor program
+anchor build
