@@ -38,18 +38,3 @@ cd programs/sentinel
 
 # Build the Anchor program
 anchor build
----
-## 📊 Performance Benchmarks (Live Evidence)
-
-To ensure the scalability of our privacy layer, we conducted extensive stress tests and latency validations using Helius RPC infrastructure.
-
-### 1. Network Throughput
-Our performance samples confirm a processing volume of **185,806 transactions** during the stress-test window, proving that the Sentinel Protocol can handle high-demand institutional traffic.
-
-### 2. RPC Latency & Health
-We maintained consistent sub-100ms response times across all critical operations:
-* **Block Height Retrieval:** 66.00 ms
-* **Node Health Check:** 120.00 ms (Stable)
-
-*Note: All metrics were captured using the Helius RPC Playground during final mainnet-beta validation.*
----
