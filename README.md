@@ -1,3 +1,10 @@
+# Sentinel Protocol 🏛️
+
+> **"Code is Law."** > 
+> 🎥 **Technical Architecture Walkthrough:** [Watch the Demo](Https://youtu.be/0LhPg0AmbRw?si=1vErlrUlpW7kjR9N)
+
+---
+
 # 🏛️ $NORTH | Silent Rails
 
 > **Native Privacy Infrastructure for Solana.**
