@@ -1,3 +1,9 @@
+![Rust](https://img.shields.io/badge/Language-Rust-orange?logo=rust)
+![Solana](https://img.shields.io/badge/Network-Solana-black?logo=solana)
+![Security](https://img.shields.io/badge/Security-Hardened-brightgreen?logo=shield)
+![Helius](https://img.shields.io/badge/Infrastructure-Helius-blueviolet)
+![Status](https://img.shields.io/badge/Status-Sentinel--Core-blue)
+
 # Sentinel Protocol 🏛️
 
 > **"Code is Law."** > 
