@@ -25,16 +25,6 @@ Unlike traditional mixers, we decouple the **Privacy Seal** from the **Execution
 * **Compliance Ready:** Programmable disclosure for institutional auditability.
 * **Institutional Grade:** Designed specifically for large-scale asset movements.
 
-### Architecture Overview
-
-```mermaid
-graph TD
-    A[User Transaction] --> B{Sentinel Program}
-    B -->|Privacy Seal| C[Decoupled Execution Layer]
-    C -->|Verified| D[Solana Mainnet]
-    B -->|Zero-Knowledge| E[Audit Trail]
-    style B fill:#14F195,stroke:#333,stroke-width:2px
-
 ---
 *Built for the Solana Privacy Hack 2026.*
 ---
