@@ -10,8 +10,6 @@
 > 🎥 **Technical Architecture Walkthrough:** [Watch the Demo](Https://youtu.be/0LhPg0AmbRw?si=1vErlrUlpW7kjR9N)
 
 ---
-
-
 # 🏛️ $NORTH | Silent Rails
 
 **Native Privacy Infrastructure for Solana.** Building the invisible standard for institutional capital.
@@ -35,11 +33,6 @@ graph TD
     C -->|Verified| D[Solana Mainnet]
     B -->|Zero-Knowledge| E[Audit Trail]
     style B fill:#14F195,stroke:#333,stroke-width:2px
-
-Unlike traditional mixers, we decouple the **Privacy Seal** from the **Execution Layer**:
-* **High-Throughput:** No bottleneck on the Sealevel runtime.
-* **Compliance Ready:** Programmable disclosure for institutional auditability.
-* **Institutional Grade:** Designed specifically for large-scale asset movements.
 
 ---
 *Built for the Solana Privacy Hack 2026.*
