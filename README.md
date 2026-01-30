@@ -20,6 +20,9 @@
 Most privacy solutions on Solana compromise performance. **$NORTH** introduces "Silent Rails"—a high-capacity privacy layer that maintains Solana's target 400ms finality. 
 
 ## ⚙️ Technical Core: Decoupled Privacy Seals
+### Architecture Overview
+
+```mermaid
 graph TD
     A[User Transaction] --> B{Sentinel Program}
     B -->|Privacy Seal| C[Decoupled Execution Layer]
