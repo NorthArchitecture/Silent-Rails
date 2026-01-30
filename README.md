@@ -26,6 +26,7 @@ Unlike traditional mixers, we decouple the **Privacy Seal** from the **Execution
 * **Institutional Grade:** Designed specifically for large-scale asset movements.
 
 ### Architecture Overview
+
 ```mermaid
 graph TD
     A[User Transaction] --> B{Sentinel Program}
