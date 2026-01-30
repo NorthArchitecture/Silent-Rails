@@ -4,7 +4,7 @@
 ![Helius](https://img.shields.io/badge/Infrastructure-Helius-blueviolet)
 ![Status](https://img.shields.io/badge/Status-Sentinel--Core-blue)
 
-# Sentinel Protocol 🏛️
+# North_Protocol 🏛️
 
 > **"Code is Law."** > 
 > 🎥 **Technical Architecture Walkthrough:** [Watch the Demo](Https://youtu.be/0LhPg0AmbRw?si=1vErlrUlpW7kjR9N)
