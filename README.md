@@ -1,3 +1,12 @@
+  _   _  ____  _____  _______ _    _ 
+ | \ | |/ __ \|  __ \|__   __| |  | |
+ |  \| | |  | | |__) |  | |  | |__| |
+ | . ` | |  | |  _  /   | |  |  __  |
+ | |\  | |__| | | \ \   | |  | |  | |
+ |_| \_|\____/|_|  \_\  |_|  |_|  |_|
+
+     Developed by North_Protocol
+
 ![Rust](https://img.shields.io/badge/Language-Rust-orange?logo=rust)
 ![Solana](https://img.shields.io/badge/Network-Solana-black?logo=solana)
 ![Security](https://img.shields.io/badge/Security-Hardened-brightgreen?logo=shield)
