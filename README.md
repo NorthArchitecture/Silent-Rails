@@ -44,5 +44,3 @@ cd programs/sentinel
 
 # Build the Anchor program
 anchor build
-
-            Developed by North_Protocol
