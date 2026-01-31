@@ -56,7 +56,7 @@ pub struct InitializeHandshake<'info> {
 
 #[derive(Accounts)]
 pub struct SealRail<'info> {
-    #[account(mut)]
+    #[account(mut, has_one = authority)]
     pub rail: Account<'info, RailState>,
     pub authority: Signer<'info>,
 }
