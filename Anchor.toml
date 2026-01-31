@@ -14,7 +14,7 @@ sentinel = "zeJyNvmriogt1zPFMMPN6quHjy7YEAXKphsNdpJn11a"
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "Mainnet"
+cluster = "localnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]

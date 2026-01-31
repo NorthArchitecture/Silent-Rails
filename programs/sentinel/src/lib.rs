@@ -6,42 +6,48 @@ declare_id!("zeJyNvmriogt1zPFMMPN6quHjy7YEAXKphsNdpJn11a");
 pub mod sentinel {
     use super::*;
 
-    // Initialize silent handshake for data fragmentation protocol
-    pub fn initialize_handshake(ctx: Context<InitializeHandshake>, fragment_id: u64) -> Result<()> {
+    pub fn initialize_handshake(
+        ctx: Context<InitializeHandshake>, 
+        fragment_id: u64,
+        zk_evidence: [u8; 32]
+    ) -> Result<()> {
         let handshake = &mut ctx.accounts.handshake;
         handshake.authority = *ctx.accounts.authority.key;
         handshake.fragment_id = fragment_id;
+        handshake.zk_evidence = zk_evidence;
         handshake.is_active = true;
-        
-        msg!("$NORTH Sentinel: Handshake Protocol Initialized for Fragment {}", fragment_id);
+        msg!("$NORTH Sentinel: Privacy Handshake Initialized.");
         Ok(())
     }
 
-    // Seal privacy rails (Protocol 03) for high-velocity execution
-    pub fn seal_privacy_rail(ctx: Context<SealRail>) -> Result<()> {
+    pub fn seal_privacy_rail(ctx: Context<SealRail>, audit_seal: [u8; 32]) -> Result<()> {
         let rail = &mut ctx.accounts.rail;
+        rail.audit_seal = audit_seal;
         rail.is_sealed = true;
-        
-        msg!("$NORTH Sentinel: Privacy Rail Sealed. 66ms Latency Target Achieved.");
+        msg!("$NORTH Sentinel: Privacy Rail Sealed with Audit Seal.");
         Ok(())
     }
-}
+} // <--- CETTE ACCOLADE FERME LE MODULE (Ligne 35)
 
 #[account]
 pub struct HandshakeState {
     pub authority: Pubkey,
     pub fragment_id: u64,
     pub is_active: bool,
+    pub zk_evidence: [u8; 32], 
 }
 
 #[account]
 pub struct RailState {
+    pub authority: Pubkey,
     pub is_sealed: bool,
+    pub audit_seal: [u8; 32], 
 }
 
 #[derive(Accounts)]
 pub struct InitializeHandshake<'info> {
-    #[account(init, payer = authority, space = 8 + 32 + 8 + 1)]
+    // Allocation de 81 octets pour supporter le zk_evidence
+    #[account(init, payer = authority, space = 8 + 32 + 8 + 1 + 32)] 
     pub handshake: Account<'info, HandshakeState>,
     #[account(mut)]
     pub authority: Signer<'info>,
