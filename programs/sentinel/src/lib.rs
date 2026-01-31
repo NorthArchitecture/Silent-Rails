@@ -46,7 +46,7 @@ pub struct RailState {
 
 #[derive(Accounts)]
 pub struct InitializeHandshake<'info> {
-    // Allocation de 81 octets pour supporter le zk_evidence
+    // Allocation of 81 bytes to support zk_evidence
     #[account(init, payer = authority, space = 8 + 32 + 8 + 1 + 32)] 
     pub handshake: Account<'info, HandshakeState>,
     #[account(mut)]
