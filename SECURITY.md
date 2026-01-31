@@ -12,5 +12,5 @@ While transactions are private, they remain **auditable** for the entities invol
 
 ### 🚫 Vulnerability Reporting
 We take security seriously. If you find a bug:
-* **Contact:** Direct message on Telegram @North_Protocol
+* **Contact:** Direct message on X @North_Protocol
 * **Status:** Architectural Phase V2.0 (Testing Environment)
