@@ -37,4 +37,4 @@ We have moved from the "Grey Space" manifesto to a functional fortress. $NORTH p
 * **Buyback Mechanics**: 100% of corporate routing fees used for token recycling.
 
 ---
-*Blueprint v2.0 - $NORTH | NorthArchitecture*
+*Blueprint v2.0 - $NORTH | North_Protocol*

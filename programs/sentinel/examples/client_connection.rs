@@ -6,7 +6,7 @@ fn main() {
 
     println!("[1] Identity check for {}...", user_id);
     
-    // Simulating 66ms security delay
+    // Simulating 66ms security latency protocol
     std::thread::sleep(std::time::Duration::from_millis(66));
 
     if security_level > 3 {
