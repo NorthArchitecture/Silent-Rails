@@ -27,7 +27,7 @@ pub mod sentinel {
         msg!("$NORTH Sentinel: Privacy Rail Sealed with Audit Seal.");
         Ok(())
     }
-} // <--- CETTE ACCOLADE FERME LE MODULE (Ligne 35)
+}
 
 #[account]
 pub struct HandshakeState {
