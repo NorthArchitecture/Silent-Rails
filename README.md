@@ -21,15 +21,15 @@ Most privacy solutions on Solana compromise performance. **$NORTH** introduces "
 
 ## 📊 Performance Benchmark vs. Competition
 
-| Feature | Legacy Privacy Mixers | **$NORTH | Silent Rails** |
+| Feature | Legacy Mixers | **$NORTH | Silent Rails** |
 | :--- | :--- | :--- |
 | **Network Latency** | 2s - 30s (Slow) | **66.00 ms (Instant)** |
-| **Throughput** | Sealevel Bottleneck | **185k+ TX/Sample** |
-| **Privacy Type** | Basic Obfuscation | **ZK-Evidence (Hardened)** |
+| **Throughput** | Bottleneck | **185k+ TX/Sample** |
+| **Privacy Type** | Obfuscation | **ZK-Evidence (Hardened)** |
 | **Compliance** | Non-Auditable | **Programmable Audit Seal** |
-| **Architecture** | Coupled Execution | **Decoupled Privacy Seals** |
+| **Architecture** | Coupled | **Decoupled Privacy Seals** |
 
-> **Note:** Our benchmarks are verified with **25,000,000 iterations** of intensive cryptographic work to ensure reliability under extreme institutional load.
+> **Note:** Verified with **25,000,000 iterations** of intensive cryptographic work.
 
 ---
 
