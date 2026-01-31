@@ -4,8 +4,6 @@
 
 # 🛡️ Security & Privacy Standards
 
-## 🛡️ Institutional Security Standard
-
 Silent-Rails is built on a "Security-First" architecture, ensuring that privacy never compromises performance. Our core engine has been stress-tested to maintain a stable **66.00ms latency** under heavy institutional load.
 
 ### 🔒 Privacy Integrity
@@ -29,7 +27,3 @@ Silent-Rails is built with the principle of **Zero-Knowledge Evidence**. No plai
 ### 🕵️ Auditability
 While transactions are private, they remain **auditable** for the entities involved. The `sentinel` program generates a unique "Audit Seal" for every rail movement, ensuring that compliance requirements can be met without exposing data to the public.
 
-### 🚫 Vulnerability Reporting
-We take security seriously. If you find a bug:
-* **Contact:** Direct message on X @North_Protocol
-* **Status:** Architectural Phase V2.0 (Testing Environment)
