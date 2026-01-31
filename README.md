@@ -1,4 +1,4 @@
-# Sentinel Protocol 🏛️
+# North_Protocol 🏛️
 
 > **"Code is Law."** > 
 > 🎥 **Technical Architecture Walkthrough:** [Watch the Demo](Https://youtu.be/0LhPg0AmbRw?si=1vErlrUlpW7kjR9N)
@@ -38,3 +38,8 @@ cd programs/sentinel
 
 # Build the Anchor program
 anchor build
+
+## 🛠 Infrastructure Validation
+- **Network**: Cluster zk-edge (SIMD-0296 compliant)
+- **Status**: 1 SOL successfully received at `zeJyNvmriogt1zPFMMPN6quHJy7YEAXKphsNdpJn11a`
+- **Build**: Anchor build verified locally for 4096-byte transaction support.
