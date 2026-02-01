@@ -73,4 +73,49 @@ describe("silent-rails-infrastructure", () => {
     expect(account.isSealed).to.be.true;
     console.log("✅ Rail sealed and secured for production.");
   });
+  it("4. Trigger Emergency Kill-Switch and Block Unauthorized Sealing", async () => {
+    // We generate a second rail for this security demonstration
+    const securityRail = anchor.web3.Keypair.generate();
+    const auditSeal = Array(32).fill(9);
+
+    // 1. Open the rail normally
+    await program.methods
+      .openPrivacyRail()
+      .accounts({
+        rail: securityRail.publicKey,
+        authority: authority.publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      })
+      .signers([securityRail])
+      .rpc();
+
+    // 2. Trigger the Emergency Revocation (Kill-Switch)
+    await program.methods
+      .deactivateRail()
+      .accounts({
+        rail: securityRail.publicKey,
+        authority: authority.publicKey,
+      })
+      .rpc();
+    
+    console.log("🛡️ Kill-Switch triggered. Rail is now INACTIVE.");
+
+    // 3. Attempt to seal the deactivated rail (EXPECTED TO FAIL)
+    try {
+      await program.methods
+        .sealPrivacyRail(auditSeal)
+        .accounts({
+          rail: securityRail.publicKey,
+          authority: authority.publicKey,
+        })
+        .rpc();
+      
+      // If we reach this line, the security check failed
+      expect.fail("Security breach: Deactivated rail allowed state transition.");
+    } catch (err) {
+      // 4. Verify that the error code matches our Rust definition 'RailInactive'
+      expect(err.error.errorCode.code).to.equal("RailInactive");
+      console.log("✅ Security Validation: Sealing blocked as expected.");
+    }
+  });
 });
