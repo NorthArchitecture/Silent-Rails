@@ -19,7 +19,13 @@ pub mod sentinel {
         msg!("$NORTH Sentinel: Privacy Handshake Initialized.");
         Ok(())
     }
-
+pub fn open_privacy_rail(ctx: Context<OpenRail>) -> Result<()> {
+        let rail = &mut ctx.accounts.rail;
+        rail.authority = *ctx.accounts.authority.key;
+        rail.is_sealed = false;
+        msg!("$NORTH Sentinel: Privacy Rail Opened.");
+        Ok(())
+    }
     pub fn seal_privacy_rail(ctx: Context<SealRail>, audit_seal: [u8; 32]) -> Result<()> {
         let rail = &mut ctx.accounts.rail;
         rail.audit_seal = audit_seal;
@@ -45,18 +51,32 @@ pub struct RailState {
 }
 
 #[derive(Accounts)]
+#[instruction(fragment_id: u64)]
 pub struct InitializeHandshake<'info> {
-    // Allocation of 81 bytes to support zk_evidence
-    #[account(init, payer = authority, space = 8 + 32 + 8 + 1 + 32)] 
+    #[account(
+        init, 
+        payer = authority, 
+        space = 8 + 32 + 8 + 1 + 32,
+        // Seeds : Anti-replay protection: deterministic PDA ensures one unique account per fragment
+        seeds = [b"handshake", authority.key().as_ref(), fragment_id.to_le_bytes().as_ref()],
+        bump
+    )] 
     pub handshake: Account<'info, HandshakeState>,
     #[account(mut)]
     pub authority: Signer<'info>,
     pub system_program: Program<'info, System>,
 }
-
 #[derive(Accounts)]
 pub struct SealRail<'info> {
     #[account(mut, has_one = authority)]
     pub rail: Account<'info, RailState>,
     pub authority: Signer<'info>,
+}
+#[derive(Accounts)]
+pub struct OpenRail<'info> {
+    #[account(init, payer = authority, space = 8 + 32 + 1 + 32)]
+    pub rail: Account<'info, RailState>,
+    #[account(mut)]
+    pub authority: Signer<'info>,
+    pub system_program: Program<'info, System>,
 }
