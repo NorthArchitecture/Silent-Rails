@@ -66,7 +66,7 @@ git clone https://github.com/NorthArchitecture/Silent-Rails
 cd programs/sentinel
 
 # Build the Anchor program
-anchor build
+anchor build```
 
 ## 🛠 Infrastructure Validation
 - **Network**: Cluster zk-edge (SIMD-0296 compliant)
