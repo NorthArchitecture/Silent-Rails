@@ -34,6 +34,12 @@ pub fn open_privacy_rail(ctx: Context<OpenRail>) -> Result<()> {
        msg!("$NORTH: Privacy Rail Opened. State: UNSEALED. Execution optimized.");
         Ok(())
     }
+    pub fn deactivate_rail(ctx: Context<SealRail>) -> Result<()> {
+        let rail = &mut ctx.accounts.rail;
+        rail.is_active = false;
+        msg!("$NORTH: EMERGENCY STOP. Rail deactivated for authority safety.");
+        Ok(())
+    }
     pub fn seal_privacy_rail(ctx: Context<SealRail>, audit_seal: [u8; 32]) -> Result<()> {
         let rail = &mut ctx.accounts.rail;
         require!(rail.is_active, NorthError::RailInactive);

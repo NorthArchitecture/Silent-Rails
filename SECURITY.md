@@ -12,6 +12,11 @@ Silent-Rails is built on a "Security-First" architecture, ensuring that privacy 
 * **Programmable Audit Seals**: Native support for encrypted audit trails allows for regulatory compliance without sacrificing user anonymity.
 * **Mathematical Hardening**: All state transitions are protected by native **overflow-checks** and Anchor’s `has_one = authority` security constraints.
 
+### 🛡️ Reactive Defense (State-Machine Enforcement)
+* **Active Kill-Switch**: Authorities maintain the power to permanently deactivate a Privacy Rail via the `deactivate_rail` instruction if a compromise is detected.
+* **On-Chain Enforcement**: Our program utilizes Anchor `require!` constraints to verify the `is_active` state before any sealing or state transition occurs.
+* **Fail-Safe Architecture**: Once a rail is deactivated, it becomes immutable, preventing any further cryptographic anchoring or audit seal modifications by unauthorized parties.
+
 ### ⚡ Performance Validation
 * **High-Capacity Stress Test**: Our handshake protocols are verified against **25,000,000 iterations** of intensive cryptographic work.
 * **Decoupled Architecture**: By separating Privacy Seals from the execution layer, we eliminate Sealevel runtime bottlenecks, supporting over **185k TX/Sample**.
