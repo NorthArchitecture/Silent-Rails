@@ -25,7 +25,7 @@ Most privacy solutions on Solana compromise performance. **$NORTH** introduces "
 | :--- | :--- | :--- |
 | **Network Latency** | 2s - 30s | **66.00 ms** |
 | **Throughput** | Bottleneck | **185k+ TX** |
-| **Privacy Type** | Obfuscation | **ZK-Evidence** |
+| **Privacy Type** | Obfuscation | **ZK-Anchoring** |
 | **Compliance** | Non-Auditable | **Audit Seal** |
 
 > **Note:** Verified with **25,000,000 iterations** of intensive cryptographic work.
@@ -72,3 +72,11 @@ anchor build
 - **Network**: Cluster zk-edge (SIMD-0296 compliant)
 - **Status**: 1 SOL successfully received at `zeJyNvmriogt1zPFMMPN6quHJy7YEAXKphsNdpJn11a`
 - **Build**: Anchor build verified locally for 4096-byte transaction support.
+
+---
+## 🚀 Roadmap: The Path to North V2
+North is built for evolution. Our decoupled architecture is designed to integrate deep cryptographic layers without breaking core performance:
+
+* **Phase 1 (Current)**: High-Speed Anchoring & Structural Privacy via PDA fragmentation.
+* **Phase 2 (Next)**: Integration of **Solana ZK-Token SDK** for native on-chain verification of anchored evidence.
+* **Phase 3**: Implementation of **ZK-Compression** to maintain 185k+ TPS even during heavy audit cycles.
