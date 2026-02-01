@@ -30,11 +30,13 @@ pub fn open_privacy_rail(ctx: Context<OpenRail>) -> Result<()> {
         let rail = &mut ctx.accounts.rail;
         rail.authority = *ctx.accounts.authority.key;
         rail.is_sealed = false;
+        rail.is_active = true;
        msg!("$NORTH: Privacy Rail Opened. State: UNSEALED. Execution optimized.");
         Ok(())
     }
     pub fn seal_privacy_rail(ctx: Context<SealRail>, audit_seal: [u8; 32]) -> Result<()> {
         let rail = &mut ctx.accounts.rail;
+        require!(rail.is_active, NorthError::RailInactive);
         rail.audit_seal = audit_seal;
         rail.is_sealed = true;
        msg!("$NORTH: Rail SEALED. Audit Hash committed for compliance tracking.");
@@ -54,6 +56,7 @@ pub struct HandshakeState {
 pub struct RailState {
     pub authority: Pubkey,
     pub is_sealed: bool,
+    pub is_active: bool,
     pub audit_seal: [u8; 32], 
 }
 
@@ -81,9 +84,14 @@ pub struct SealRail<'info> {
 }
 #[derive(Accounts)]
 pub struct OpenRail<'info> {
-    #[account(init, payer = authority, space = 8 + 32 + 1 + 32)]
+    #[account(init, payer = authority, space = 8 + 32 + 1 + 1 + 32)]
     pub rail: Account<'info, RailState>,
     #[account(mut)]
     pub authority: Signer<'info>,
     pub system_program: Program<'info, System>,
+}
+#[error_code]
+pub enum NorthError {
+    #[msg("This privacy rail has been deactivated by the authority.")]
+    RailInactive,
 }
