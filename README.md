@@ -41,6 +41,14 @@ Unlike traditional mixers, we decouple the **Privacy Seal** from the **Execution
 * **Institutional Grade:** Designed specifically for large-scale asset movements.
 
 ---
+### 🛡️ Security & Identity (PDA Architecture)
+$NORTH is built on a **Deterministic State Machine** using Solana’s **Program Derived Addresses (PDAs)** to enforce strict security boundaries:
+* **Anti-Replay Protection**: Every privacy rail is bound to a unique PDA using `[authority, fragment_id]` as seeds, making double-initialization attacks computationally impossible.
+* **Deterministic Mapping**: Our architecture allows the frontend to pre-calculate account addresses off-chain, enabling $O(1)$ retrieval times without scanning the ledger.
+* **Authority Lockdown**: Using Anchor’s `has_one = authority` constraint, we ensure that only the legitimate signer can access or seal their specific privacy data.
+* **ZK-Evidence Integrity**: The `HandshakeState` PDA securely anchors ZK-proof metadata directly to the user's identity without exposing sensitive underlying data.
+
+---
 *Built for the Solana Privacy Hack 2026.*
 ---
 
