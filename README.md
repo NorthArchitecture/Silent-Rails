@@ -6,9 +6,6 @@
 
 # North_Protocol | Sentinel Core
 
-> **"Privacy is a Right. Performance is a Requirement."**
-> 🎥 **Technical Architecture Walkthrough:** [Watch the Demo](https://youtu.be/0LhPg0AmbRw?si=1vErlrUlpW7kjR9N)
-
 ---
 
 # 🏛️ $NORTH | Silent Rails (V2)
