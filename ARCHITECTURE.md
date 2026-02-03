@@ -17,3 +17,7 @@ To ensure "Silence", transaction data is never stored in a centralized state:
 * **Handshake Scoping**: Each transaction generates a unique `HandshakeState` account. These accounts are scoped to their specific `RailState` via PDAs, preventing global transaction graph sniffing.
 * **Deterministic Routing**: Storage addresses are calculated off-chain using predictable seeds, enabling **66ms** fragment retrieval without the need for expensive blockchain indexing.
 * **State Isolation**: This fragmented structure breaks the linkability of transactions for third-party observers, while remaining fully reconstitutable for authorized auditors via the `audit_seal`.
+
+---
+*Note: The Sentinel-Core logic and O(1) state-lookup mechanisms described here are protected under the North Architecture Sovereign License. Any unauthorized reproduction for commercial purposes is prohibited.*
+
