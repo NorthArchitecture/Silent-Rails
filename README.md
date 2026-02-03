@@ -1,8 +1,9 @@
 ![Rust](https://img.shields.io/badge/Language-Rust-orange?logo=rust)
 ![Solana](https://img.shields.io/badge/Network-Solana-black?logo=solana)
-![Security](https://img.shields.io/badge/Security-Hardened-brightgreen?logo=shield)
-![Helius](https://img.shields.io/badge/Infrastructure-Helius-blueviolet)
-![Status](https://img.shields.io/badge/Status-Sentinel--Core--V2-blue)
+![Complexity](https://img.shields.io/badge/Complexity-O(1)-brightgreen)
+![Latency](https://img.shields.io/badge/Latency-66ms-blueviolet)
+![Compliance](https://img.shields.io/badge/Compliance-MiCA--Ready-blue)
+![Security](https://img.shields.io/badge/Security-Audit--Seal-success?logo=shield)
 
 # North_Protocol | Sentinel Core
 
