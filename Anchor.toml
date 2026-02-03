@@ -1,21 +1,28 @@
 [toolchain]
 
 [features]
-seeds = true
+resolution = true
 skip-lint = false
-
-[programs.mainnet]
-sentinel = "zeJyNvmriogt1zPFMMPN6quHjy7YEAXKphsNdpJn11a"
+seeds = true
 
 [programs.localnet]
-sentinel = "zeJyNvmriogt1zPFMMPN6quHjy7YEAXKphsNdpJn11a"
+sentinel = "83yN8hf9V8P8eFU8B3bRfpQRPAZopTSEac8J33NEcLci"
+
+[programs.devnet]
+sentinel = "83yN8hf9V8P8eFU8B3bRfpQRPAZopTSEac8J33NEcLci"
+
+[programs.mainnet]
+sentinel = "83yN8hf9V8P8eFU8B3bRfpQRPAZopTSEac8J33NEcLci"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "localnet"
+cluster = "Devnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
-test = "anchor build && yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+test = "npx ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+
+[workspace]
+members = ["programs/*"]

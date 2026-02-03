@@ -1,7 +1,8 @@
 target/
 .anchor/
 test-ledger/
-id.json
-.env
+id/
 node_modules/
-*.keypair.json
+.env
+id.json
+**/*.keypair.json
