@@ -9,6 +9,18 @@
 
 ---
 
+> [!CAUTION]
+> **PROPRIETARY ARCHITECTURE & LICENSING**
+> 
+> This repository is protected under the **Sovereign Institutional License**. 
+> - **Commercial use** is strictly prohibited without written consent.
+> - **Production deployment** is gated and will require the **$NORTH** token (integration in progress).
+> - **Institutional Rights**: All O(1) PDA Registry logic and Sentinel-Core designs are the exclusive intellectual property of North Architecture.
+> 
+> *Unauthorized forks or commercial exploitations will be subject to legal action.*
+
+---
+
 # 🏛️ $NORTH | Silent Rails (V2)
 
 **Native Privacy Infrastructure for Solana.** Sentinel Core is the invisible standard for institutional-grade confidential settlements, delivering zero-knowledge privacy at the speed of light.
