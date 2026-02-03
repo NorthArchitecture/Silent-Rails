@@ -2,7 +2,6 @@
 ![Compliance](https://img.shields.io/badge/Compliance-MiCA--Ready-blueviolet)
 ![Algorithm](https://img.shields.io/badge/Algorithm-O(1)--Constant--Time-blue)
 ![Latency](https://img.shields.io/badge/Latency-66ms-brightgreen)
-)
 
 # 🛡️ Institutional Security & Privacy Standards
 
