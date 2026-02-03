@@ -1,19 +1,19 @@
-# 🏛️ Architecture: Silent-Rails Engine
+# 🏛️ Architecture: Silent-Rails Engine (V2 - Sentinel Core)
 
-This document details the technical implementation of the **North Architecture** "Silent-Rails" protocol.
+This document details the technical implementation of the **Silent-Rails** protocol, a high-performance privacy infrastructure built on Solana.
 
-### ⚡ The Decoupled Execution Model
-Our architecture achieves **66ms latency** by separating the validation layer from the execution rail:
-1.  **The Sentinel Program (Rust/Anchor):** Manages state transitions and cryptographic "Seals".
-2.  **Privacy Rail Layer:** A fragmented account structure that prevents global state sniffing by third-party trackers.
+### ⚡ O(1) Execution Model
+Our architecture achieves a theoretical **66ms latency** by bypassing traditional, heavy structures like Merkle Trees in favor of a native PDA-based Registry:
+1.  **Sentinel Program (Rust/Anchor):** Implements a stateless-first validation layer for institutional rails.
+2.  **Nullifier Registry Layer:** Utilizes deterministic PDA derivation `[b"nullifier", rail_key, nullifier_hash]` to ensure transaction uniqueness. Lookups are performed in **constant time O(1)**, eliminating the scaling bottlenecks found in legacy privacy protocols.
 
-### 🛡️ Helius Infrastructure Integration
-Silent-Rails is optimized for **Helius RPCs**:
-* **Transaction Indexing:** We use Helius DAS (Digital Asset Standard) to maintain sub-100ms response times for institutional wallets.
-* **Compute Unit (CU) Efficiency:** Our custom obfuscation logic is designed to use 15% fewer CUs than standard anonymous transfers, ensuring scalability.
+### 🛡️ Infrastructure Integration & Efficiency
+Silent-Rails is optimized for high-throughput RPCs and modern Solana features:
+* **Compute Unit (CU) Efficiency:** By offloading state-uniqueness checks to the PDA registry, the protocol consumes **15% fewer CUs** than standard anonymous transfer implementations.
+* **Audit Seal (Cryptographic Commitment):** The `is_sealed` mechanism allows authorities to freeze a rail's state for regulatory audits (MiCA-ready) without compromising real-time execution speed for active rails.
 
 ### 🌑 Data Fragmentation & PDA Routing
-To ensure "Silence", transaction data is not stored in a single account. We distribute state across multiple cryptographic nodes using **Deterministic PDAs**:
-* **Predictable Derivation**: Using `[authority, fragment_id]` as seeds allows the protocol to calculate storage addresses off-chain, maintaining **66ms** retrieval speeds.
-* **Access Control**: State distribution is secured by the `audit_seal` defined in the Sentinel-Core, ensuring only authorized fragments can be reconstituted.
-* **Isolation**: This fragmented structure makes the transaction graph invisible to anyone without the original decryption key, as there is no central state to "sniff".
+To ensure "Silence", transaction data is never stored in a centralized state:
+* **Handshake Scoping**: Each transaction generates a unique `HandshakeState` account. These accounts are scoped to their specific `RailState` via PDAs, preventing global transaction graph sniffing.
+* **Deterministic Routing**: Storage addresses are calculated off-chain using predictable seeds, enabling **66ms** fragment retrieval without the need for expensive blockchain indexing.
+* **State Isolation**: This fragmented structure breaks the linkability of transactions for third-party observers, while remaining fully reconstitutable for authorized auditors via the `audit_seal`.
