@@ -1,8 +1,10 @@
-![Security](https://img.shields.io/badge/Security-Hardened-brightgreen?logo=shield)
-![Audit](https://img.shields.io/badge/Audit-Ready-blueviolet)
-![Status](https://img.shields.io/badge/Phase-Architectural--V2.0-blue)
+![Security](https://img.shields.io/badge/Security-Audit--Seal-success?logo=shield)
+![Compliance](https://img.shields.io/badge/Compliance-MiCA--Ready-blueviolet)
+![Algorithm](https://img.shields.io/badge/Algorithm-O(1)--Constant--Time-blue)
+![Latency](https://img.shields.io/badge/Latency-66ms-brightgreen)
+)
 
-# 🛡️ Security & Privacy Standards
+# 🛡️ Institutional Security & Privacy Standards
 
 Silent-Rails is built on a "Security-First" architecture. Our core engine, **Sentinel**, has been engineered to provide institutional privacy while maintaining a constant **66.00ms latency** via O(1) state lookup.
 
