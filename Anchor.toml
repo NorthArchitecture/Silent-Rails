@@ -7,20 +7,20 @@ skip-lint = false
 seeds = true
 
 [programs.localnet]
-sentinel = "83yN8hf9V8P8eFU8B3bRfpQRPAZopTSEac8J33NEcLci"
+sentinel = "8kupSJGoD3nuHYRWZtvTuqGeYEtmwF5YsiM8tNxpRZFB"
 
 [programs.devnet]
-sentinel = "83yN8hf9V8P8eFU8B3bRfpQRPAZopTSEac8J33NEcLci"
+sentinel = "8kupSJGoD3nuHYRWZtvTuqGeYEtmwF5YsiM8tNxpRZFB"
 
 [programs.mainnet]
-sentinel = "83yN8hf9V8P8eFU8B3bRfpQRPAZopTSEac8J33NEcLci"
+sentinel = "8kupSJGoD3nuHYRWZtvTuqGeYEtmwF5YsiM8tNxpRZFB"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "Devnet"
-wallet = "~/.config/solana/id.json"
+cluster = "localnet"
+wallet = "/Users/Antho/deployer.json"
 
 [scripts]
 test = "npx ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"

@@ -1,98 +1,144 @@
 import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
 import { expect } from "chai";
+import { Sentinel } from "../target/types/sentinel";
 
 describe("sentinel", () => {
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
 
-  const program = anchor.workspace.Sentinel as Program<any>;
-  const authority = provider.wallet;
+  const program = anchor.workspace.Sentinel as Program<Sentinel>;
 
-  const mockProof = {
-    a: Array(64).fill(0),
-    b: Array(128).fill(0),
-    c: Array(64).fill(0),
-  };
-  const nullifierHash = Array(32).fill(1);
-
-  it("initialize_handshake", async () => {
-    const fragmentId = new anchor.BN(Date.now());
+  async function fundAccount(publicKey: anchor.web3.PublicKey) {
+    const airdropSig = await provider.connection.requestAirdrop(
+      publicKey,
+      10 * anchor.web3.LAMPORTS_PER_SOL
+    );
+    const latestBlockhash = await provider.connection.getLatestBlockhash();
+    await provider.connection.confirmTransaction({
+      signature: airdropSig,
+      blockhash: latestBlockhash.blockhash,
+      lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+    }, "confirmed");
     
-    const [handshakePda] = anchor.web3.PublicKey.findProgramAddressSync(
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  }
+
+  it("initialize_rail", async () => {
+    const authority = anchor.web3.Keypair.generate();
+    await fundAccount(authority.publicKey);
+
+    const institutionType = 1;
+    const complianceLevel = 2;
+    
+    const [railPda] = anchor.web3.PublicKey.findProgramAddressSync(
       [
-        Buffer.from("handshake"),
-        authority.publicKey.toBuffer(),
-        fragmentId.toArrayLike(Buffer, "le", 8)
+        anchor.utils.bytes.utf8.encode("rail"),
+        authority.publicKey.toBuffer()
       ],
       program.programId
     );
 
     await program.methods
-      .initializeHandshake(fragmentId, mockProof, nullifierHash)
+      .initializeRail(institutionType, complianceLevel)
       .accounts({
-        handshake: handshakePda,
+        rail: railPda,
         authority: authority.publicKey,
         systemProgram: anchor.web3.SystemProgram.programId,
-      })
+      } as any)
+      .signers([authority])
       .rpc();
 
-    const account = await (program.account as any).handshakeState.fetch(handshakePda);
+    const account = await program.account.railState.fetch(railPda);
     expect(account.isActive).to.be.true;
   });
 
-  it("rail_lifecycle", async () => {
-    const railKeypair = anchor.web3.Keypair.generate();
-    const auditSeal = Array(32).fill(9);
+  it("create_handshake_and_seal", async () => {
+    const authority = anchor.web3.Keypair.generate();
+    await fundAccount(authority.publicKey);
+
+    const [railPda] = anchor.web3.PublicKey.findProgramAddressSync(
+      [
+        anchor.utils.bytes.utf8.encode("rail"),
+        authority.publicKey.toBuffer()
+      ],
+      program.programId
+    );
 
     await program.methods
-      .openPrivacyRail()
+      .initializeRail(1, 2)
       .accounts({
-        rail: railKeypair.publicKey,
+        rail: railPda,
         authority: authority.publicKey,
         systemProgram: anchor.web3.SystemProgram.programId,
-      })
-      .signers([railKeypair])
+      } as any)
+      .signers([authority])
       .rpc();
+
+    const commitment = Array.from(new Uint8Array(32).fill(1));
+    const nullifierHash = Array.from(new Uint8Array(32).fill(2));
 
     await program.methods
-      .sealPrivacyRail(auditSeal)
+      .createHandshake(commitment, nullifierHash)
       .accounts({
-        rail: railKeypair.publicKey,
+        rail: railPda,
+        payer: authority.publicKey,
         authority: authority.publicKey,
-      })
+      } as any)
+      .signers([authority])
       .rpc();
 
-    const railAccount = await (program.account as any).railState.fetch(railKeypair.publicKey);
+    const auditSeal = Array.from(new Uint8Array(32).fill(9));
+
+    await program.methods
+      .sealRail(auditSeal)
+      .accounts({
+        rail: railPda,
+        authority: authority.publicKey,
+      } as any)
+      .signers([authority])
+      .rpc();
+
+    const railAccount = await program.account.railState.fetch(railPda);
     expect(railAccount.isSealed).to.be.true;
   });
 
   it("security_unauthorized", async () => {
-    const railKeypair = anchor.web3.Keypair.generate();
-    const pirate = anchor.web3.Keypair.generate();
+    const authority = anchor.web3.Keypair.generate();
+    await fundAccount(authority.publicKey);
+
+    const [railPda] = anchor.web3.PublicKey.findProgramAddressSync(
+      [
+        anchor.utils.bytes.utf8.encode("rail"),
+        authority.publicKey.toBuffer()
+      ],
+      program.programId
+    );
 
     await program.methods
-      .openPrivacyRail()
+      .initializeRail(1, 2)
       .accounts({
-        rail: railKeypair.publicKey,
+        rail: railPda,
         authority: authority.publicKey,
         systemProgram: anchor.web3.SystemProgram.programId,
-      })
-      .signers([railKeypair])
+      } as any)
+      .signers([authority])
       .rpc();
+
+    const unauthorizedUser = anchor.web3.Keypair.generate();
 
     try {
       await program.methods
-        .sealPrivacyRail(Array(32).fill(0))
+        .sealRail(Array.from(new Uint8Array(32).fill(0)))
         .accounts({
-          rail: railKeypair.publicKey,
-          authority: pirate.publicKey,
-        })
-        .signers([pirate])
+          rail: railPda,
+          authority: unauthorizedUser.publicKey,
+        } as any)
+        .signers([unauthorizedUser])
         .rpc();
-      expect.fail();
+      expect.fail("Should have thrown unauthorized error");
     } catch (err: any) {
-      expect(err).to.exist;
+      expect(err.toString()).to.include("AnchorError");
     }
   });
 });
