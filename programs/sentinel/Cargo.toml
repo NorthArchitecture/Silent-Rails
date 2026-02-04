@@ -1,0 +1,18 @@
+[package]
+name = "sentinel"
+version = "1.0.0"
+description = "Sentinel Privacy Rail - Institutional Grade Privacy Infrastructure v1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "sentinel"
+
+[features]
+default = []
+
+[dependencies]
+anchor-lang = "0.32.1"
+
+# TODO v2.0: Uncomment for NORTH token integration
+# anchor-spl = "0.30.1"
