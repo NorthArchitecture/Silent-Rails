@@ -26,9 +26,11 @@ jobs:
         sh -c "$(curl -sSfL https://release.solana.com/v1.18.20/install)"
         echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
     
-    - name: Install Anchor
+    - name: Install Anchor via AVM
       run: |
-        cargo install --git https://github.com/coral-xyz/anchor --tag v0.30.1 anchor-cli --locked --force
+        cargo install --git https://github.com/coral-xyz/anchor avm --locked --force
+        avm install 0.32.1
+        avm use 0.32.1
     
     - name: Build Program
       run: |
@@ -39,5 +41,4 @@ jobs:
       with:
         name: solana-program
         path: |
-          target/deploy/*.so
-          target/idl/          target/idl/          target/idljson
+          tar          tar          tar          tar  on           target/deploy/*-keypair.json
