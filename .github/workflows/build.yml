@@ -25,6 +25,7 @@ jobs:
       run: |
         sh -c "$(curl -sSfL https://release.solana.com/v1.18.20/install)"
         echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
+        cargo install cargo-build-sbf
     
     - name: Install Anchor via AVM
       run: |
@@ -39,6 +40,6 @@ jobs:
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: solana-program
-        path: |
-          tar          tar          tar          tar  on          tar          ta*-keypair.json
+        name: solana        name: solana        name: solana /deploy/*.so
+          target/idl/*.json
+          target/deploy/*-keypair.json
