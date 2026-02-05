@@ -7,13 +7,13 @@ skip-lint = false
 seeds = true
 
 [programs.localnet]
-sentinel = "8kupSJGoD3nuHYRWZtvTuqGeYEtmwF5YsiM8tNxpRZFB"
+sentinel = "2ZwE953tagxuhDWzQn5xorQ18sWfXoUeRfJsFwGju6Zp"
 
 [programs.devnet]
-sentinel = "8kupSJGoD3nuHYRWZtvTuqGeYEtmwF5YsiM8tNxpRZFB"
+sentinel = "2ZwE953tagxuhDWzQn5xorQ18sWfXoUeRfJsFwGju6Zp"
 
 [programs.mainnet]
-sentinel = "8kupSJGoD3nuHYRWZtvTuqGeYEtmwF5YsiM8tNxpRZFB"
+sentinel = "2ZwE953tagxuhDWzQn5xorQ18sWfXoUeRfJsFwGju6Zp"
 
 [registry]
 url = "https://api.apr.dev"
