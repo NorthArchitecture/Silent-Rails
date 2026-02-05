@@ -1,35 +1,21 @@
 use anchor_lang::prelude::*;
+use anchor_spl::token_interface::{TokenAccount, Mint, TokenInterface};
 
 declare_id!("8kupSJGoD3nuHYRWZtvTuqGeYEtmwF5YsiM8tNxpRZFB");
-
-/// Sentinel Privacy Rail - Institutional Grade v1.0
-/// 
-/// ROADMAP:
-/// v1.0 (CURRENT) - Core privacy infrastructure deployed
-/// v2.0 (PLANNED) - NORTH token payment integration for rail initialization
-/// 
-/// Token integration will require:
-/// - NORTH token payment to create a rail (prevents spam)
-/// - Treasury collection for sustainability
-/// - Staking mechanism for institutional guarantees
 
 #[program]
 pub mod sentinel {
     use super::*;
 
-    /// Initialize a new privacy rail for an institution
-    /// 
-    /// NOTE: v2.0 will require NORTH token payment
-    /// Current: Free initialization (deployment phase)
-    /// Future: Will require X NORTH tokens to create a rail
     pub fn initialize_rail(
         ctx: Context<InitializeRail>,
         institution_type: u8,
         compliance_level: u8,
     ) -> Result<()> {
-        // TODO v2.0: Add NORTH token payment check here
-        // let amount = calculate_rail_cost(institution_type, compliance_level);
-        // transfer_checked(user_token_account, treasury, amount)?;
+        require!(
+            ctx.accounts.authority_token_account.amount > 0,
+            SentinelError::InsufficientNorthTokens
+        );
         
         let rail = &mut ctx.accounts.rail;
         let clock = Clock::get()?;
@@ -51,13 +37,6 @@ pub mod sentinel {
         Ok(())
     }
 
-    /// Create an anonymous handshake with ZK proof verification
-    /// 
-    /// Security Features:
-    /// - Nullifier scoped to rail (prevents cross-rail griefing)
-    /// - Sealed rail check (immutability after audit)
-    /// - Pause mechanism check
-    /// - Double-spend protection via nullifier registry
     pub fn create_handshake(
         ctx: Context<CreateHandshake>,
         commitment: [u8; 32],
@@ -66,7 +45,6 @@ pub mod sentinel {
         require!(!ctx.accounts.rail.is_sealed, SentinelError::RailSealed);
         require!(ctx.accounts.rail.is_active, SentinelError::RailInactive);
         require!(!ctx.accounts.rail.is_paused, SentinelError::RailPaused);
-        
         require!(!ctx.accounts.nullifier_registry.is_spent, SentinelError::NullifierAlreadyUsed);
         
         let clock = Clock::get()?;
@@ -94,12 +72,6 @@ pub mod sentinel {
         Ok(())
     }
 
-    /// Seal a rail with cryptographic audit commitment
-    /// 
-    /// Regulatory Compliance:
-    /// - Creates immutable snapshot of rail state
-    /// - Prevents further mutations (enforced in create_handshake)
-    /// - Timestamp-locked for audit trail
     pub fn seal_rail(
         ctx: Context<SealRail>,
         audit_seal: [u8; 32],
@@ -118,9 +90,6 @@ pub mod sentinel {
         Ok(())
     }
 
-    /// Deactivate a rail with full audit trail
-    /// 
-    /// Records deactivation timestamp and reason code for compliance
     pub fn deactivate_rail(
         ctx: Context<DeactivateRail>,
         reason_code: u8,
@@ -137,9 +106,6 @@ pub mod sentinel {
         Ok(())
     }
 
-    /// Emergency pause mechanism for critical situations
-    /// 
-    /// Temporary halt without deactivation - reversible
     pub fn pause_rail(ctx: Context<PauseRail>) -> Result<()> {
         let rail = &mut ctx.accounts.rail;
         
@@ -151,7 +117,6 @@ pub mod sentinel {
         Ok(())
     }
 
-    /// Resume a paused rail
     pub fn unpause_rail(ctx: Context<UnpauseRail>) -> Result<()> {
         let rail = &mut ctx.accounts.rail;
         
@@ -163,9 +128,6 @@ pub mod sentinel {
         Ok(())
     }
 
-    /// Revoke a specific handshake (institutional control)
-    /// 
-    /// Authority can revoke specific handshakes while maintaining audit trail
     pub fn revoke_handshake(
         ctx: Context<RevokeHandshake>,
         _reason_code: u8,
@@ -185,9 +147,6 @@ pub mod sentinel {
     }
 }
 
-/// Privacy rail state - Institution's compliance boundary
-/// 
-/// NOTE: v2.0 will add fields for token payment tracking
 #[account]
 pub struct RailState {
     pub authority: Pubkey,
@@ -205,12 +164,8 @@ pub struct RailState {
     pub deactivation_reason: u8,
     pub version: u8,
     pub _reserved: [u8; 6],
-    // TODO v2.0: Add token payment fields
-    // pub paid_amount: u64,
-    // pub payment_timestamp: i64,
 }
 
-/// Anonymous handshake state
 #[account]
 pub struct HandshakeState {
     pub rail: Pubkey,
@@ -222,8 +177,6 @@ pub struct HandshakeState {
     pub revoked_at: i64,
 }
 
-/// Nullifier registry - prevents double-spending
-/// CRITICAL: Scoped to rail for security
 #[account]
 pub struct NullifierRegistry {
     pub rail: Pubkey,
@@ -245,12 +198,13 @@ pub struct InitializeRail<'info> {
     pub rail: Account<'info, RailState>,
     #[account(mut)]
     pub authority: Signer<'info>,
+    #[account(
+        constraint = authority_token_account.owner == authority.key() @ SentinelError::InvalidTokenAccount,
+        constraint = authority_token_account.mint == north_mint.key() @ SentinelError::InvalidMint
+    )]
+    pub authority_token_account: InterfaceAccount<'info, TokenAccount>,
+    pub north_mint: InterfaceAccount<'info, Mint>,
     pub system_program: Program<'info, System>,
-    // TODO v2.0: Add token accounts here
-    // pub user_north_token_account: InterfaceAccount<'info, TokenAccount>,
-    // pub treasury_north_token_account: InterfaceAccount<'info, TokenAccount>,
-    // pub north_mint: InterfaceAccount<'info, Mint>,
-    // pub token_program: Interface<'info, TokenInterface>,
 }
 
 #[derive(Accounts)]
@@ -356,6 +310,12 @@ pub enum SentinelError {
     InvalidRail,
     #[msg("Arithmetic overflow")]
     Overflow,
+    #[msg("Authority must hold NORTH tokens")]
+    InsufficientNorthTokens,
+    #[msg("Invalid token account")]
+    InvalidTokenAccount,
+    #[msg("Invalid mint")]
+    InvalidMint,
 }
 
 pub const PROTOCOL_VERSION: u8 = 1;

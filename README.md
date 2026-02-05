@@ -71,16 +71,21 @@ North Architecture is engineered for institutional-grade reliability, leveraging
 * **Ultra-Low Latency:** Stable execution at **66.00 ms** via Helius high-performance RPCs.
 * **CU Efficiency:** Sentinel V2 uses **15% fewer Compute Units** than standard ZK-transfer protocols.
 
-### 🛠️ Quick Start
+### 🛠️ Installation & Build
 ```bash
-# Clone the repository
-git clone [https://github.com/NorthArchitecture/Silent-Rails](https://github.com/NorthArchitecture/Silent-Rails)
 
-# Build the Anchor program
-anchor build
+# 1. Clone the repository
+git clone https://github.com/NorthArchitecture/Silent-Rails
+cd Silent-Rails
 
-# (Pending) Deploy to Devnet
-anchor deploy --provider.cluster devnet
+# 2. Build the Sentinel program
+# We use the SBF (Solana Binary Format) direct build for maximum reliability
+cargo build-sbf --manifest-path programs/sentinel/Cargo.toml
+
+# 3. Verification
+# After a successful build, you can verify the generated artifacts in:
+# - Binary (SBF): ./target/deploy/sentinel.so
+# - IDL (Interface): ./target/idl/sentinel.json
 ```
 
 ---
