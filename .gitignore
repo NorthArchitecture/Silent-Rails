@@ -1,8 +1,18 @@
-target/
-.anchor/
-test-ledger/
-id/
-node_modules/
-.env
-id.json
-**/*.keypair.json
+# --- Compilation & Build ---
+target/                
+.anchor/               
+
+# --- Security & Keys ---
+.env                   
+**/*.json              
+!target/idl/*.json     
+**/*.keypair.json      
+id.json                
+id/                    
+
+# --- Tests & Blockchain ---
+test-ledger/           
+.DS_Store              
+
+# --- Dependencies ---
+node_modules/  
