@@ -20,7 +20,11 @@
 > *Unauthorized forks or commercial exploitations will be subject to legal action.*
 
 ---
+# 🏛️ $NORTH | Silent Rails
 
+**Privacy is not a feature, it’s a sovereign right. While others build public mixers, Sentinel Core deploys private rails. We provide the world’s financial institutions with their own cryptographically sealed tunnels—isolated, un-traceable, and ultra-fast. No shared pools. No risk of contamination. Just pure, institutional-grade silence.**
+
+---
 # 🏛️ $NORTH | Silent Rails (V2)
 
 **Native Privacy Infrastructure for Solana.** Sentinel Core is the invisible standard for institutional-grade confidential settlements, delivering zero-knowledge privacy at the speed of light.
