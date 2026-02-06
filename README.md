@@ -89,6 +89,19 @@ anchor build
 # - IDL (Interface): ./target/idl/sentinel.json
 # - TypeScript types: ./target/types/sentinel.ts
 ```
+## 🧪 Testing & Verification
+
+The **Sentinel Core V2** engine is strictly validated through a dedicated integration test suite. This ensures the protocol remains ultra-secure and reliable for institutional requirements.
+
+### ✅ Automated Test Suite (`tests/sentinel.ts`)
+* **✔ 1. initialize_rail** – Validates private infrastructure deployment and authority binding.
+* **✔ 2. create_handshake_and_seal** – Confirms data anchoring and the "Audit Seal" compliance state change.
+* **✔ 3. security_unauthorized** – Verifies protection against unauthorized access attempts.
+* **✔ 4. should_fail_without_north_tokens** – Enforces the NORTH token gatekeeping mechanism.
+
+> **Status:** 4/4 Integration Tests Passed 🟢  
+> **Environment:** Solana Localnet / Test-Validator  
+> **Last Verified:** 2026-02-06
 
 ### Prerequisites
 - **Anchor CLI**: 0.32.0
