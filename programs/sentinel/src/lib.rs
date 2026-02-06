@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token_interface::{TokenAccount, Mint, TokenInterface};
 
-declare_id!("2ZwE953tagxuhDWzQn5xorQ18sWfXoUeRfJsFwGju6Zp");
+declare_id!("ABXXfFPfPhha6KFSQVz9i3FSQ9DSPEk4w585bHkp7U42");
 
 #[program]
 pub mod sentinel {
@@ -204,6 +204,7 @@ pub struct InitializeRail<'info> {
     )]
     pub authority_token_account: InterfaceAccount<'info, TokenAccount>,
     pub north_mint: InterfaceAccount<'info, Mint>,
+    pub token_program: Interface<'info, TokenInterface>,
     pub system_program: Program<'info, System>,
 }
 

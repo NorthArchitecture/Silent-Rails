@@ -2,6 +2,11 @@ import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
 import { expect } from "chai";
 import { Sentinel } from "../target/types/sentinel";
+import{
+  createMint,
+  getOrCreateAssociatedTokenAccount,
+  mintTo,
+} from "@solana/spl-token";
 
 describe("sentinel", () => {
   const provider = anchor.AnchorProvider.env();
@@ -9,59 +14,68 @@ describe("sentinel", () => {
 
   const program = anchor.workspace.Sentinel as Program<Sentinel>;
 
+  let northMint: anchor.web3.PublicKey;
+  let mintAuthority: anchor.web3.Keypair;
+
+  before(async () => {
+    mintAuthority = anchor.web3.Keypair.generate();
+    await fundAccount(mintAuthority.publicKey);
+
+    northMint = await createMint(
+      provider.connection,
+      mintAuthority,
+      mintAuthority.publicKey,
+      null,
+      9
+    );
+  });
+
   async function fundAccount(publicKey: anchor.web3.PublicKey) {
     const airdropSig = await provider.connection.requestAirdrop(
       publicKey,
       10 * anchor.web3.LAMPORTS_PER_SOL
     );
     const latestBlockhash = await provider.connection.getLatestBlockhash();
-    await provider.connection.confirmTransaction({
-      signature: airdropSig,
-      blockhash: latestBlockhash.blockhash,
-      lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
-    }, "confirmed");
-    
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await provider.connection.confirmTransaction(
+      {
+        signature: airdropSig,
+        blockhash: latestBlockhash.blockhash,
+        lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+      },
+      "confirmed"
+    );
+
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }
+
+  async function setupTokenAccount(owner: anchor.web3.Keypair) {
+    const tokenAccount = await getOrCreateAssociatedTokenAccount(
+      provider.connection,
+      mintAuthority,
+      northMint,
+      owner.publicKey
+    );
+
+    await mintTo(
+      provider.connection,
+      mintAuthority,
+      northMint,
+      tokenAccount.address,
+      mintAuthority,
+      1000 * 1_000_000_000
+    );
+
+    return tokenAccount.address;
   }
 
   it("initialize_rail", async () => {
     const authority = anchor.web3.Keypair.generate();
     await fundAccount(authority.publicKey);
 
-    const institutionType = 1;
-    const complianceLevel = 2;
-    
-    const [railPda] = anchor.web3.PublicKey.findProgramAddressSync(
-      [
-        anchor.utils.bytes.utf8.encode("rail"),
-        authority.publicKey.toBuffer()
-      ],
-      program.programId
-    );
-
-    await program.methods
-      .initializeRail(institutionType, complianceLevel)
-      .accounts({
-        rail: railPda,
-        authority: authority.publicKey,
-        systemProgram: anchor.web3.SystemProgram.programId,
-      } as any)
-      .signers([authority])
-      .rpc();
-
-    const account = await program.account.railState.fetch(railPda);
-    expect(account.isActive).to.be.true;
-  });
-
-  it("create_handshake_and_seal", async () => {
-    const authority = anchor.web3.Keypair.generate();
-    await fundAccount(authority.publicKey);
+    const authorityTokenAccount = await setupTokenAccount(authority);
 
     const [railPda] = anchor.web3.PublicKey.findProgramAddressSync(
-      [
-        anchor.utils.bytes.utf8.encode("rail"),
-        authority.publicKey.toBuffer()
-      ],
+      [anchor.utils.bytes.utf8.encode("rail"), authority.publicKey.toBuffer()],
       program.programId
     );
 
@@ -70,8 +84,37 @@ describe("sentinel", () => {
       .accounts({
         rail: railPda,
         authority: authority.publicKey,
+        authorityTokenAccount: authorityTokenAccount,
+        northMint: northMint,
         systemProgram: anchor.web3.SystemProgram.programId,
-      } as any)
+      })
+      .signers([authority])
+      .rpc();
+
+    const account = await (program.account as any).railState.fetch(railPda);
+    expect(account.isActive).to.be.true;
+  });
+
+  it("create_handshake_and_seal", async () => {
+    const authority = anchor.web3.Keypair.generate();
+    await fundAccount(authority.publicKey);
+
+    const authorityTokenAccount = await setupTokenAccount(authority);
+
+    const [railPda] = anchor.web3.PublicKey.findProgramAddressSync(
+      [anchor.utils.bytes.utf8.encode("rail"), authority.publicKey.toBuffer()],
+      program.programId
+    );
+
+    await program.methods
+      .initializeRail(1, 2)
+      .accounts({
+        rail: railPda,
+        authority: authority.publicKey,
+        authorityTokenAccount: authorityTokenAccount,
+        northMint: northMint,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      })
       .signers([authority])
       .rpc();
 
@@ -83,8 +126,8 @@ describe("sentinel", () => {
       .accounts({
         rail: railPda,
         payer: authority.publicKey,
-        authority: authority.publicKey,
-      } as any)
+        systemProgram: anchor.web3.SystemProgram.programId,
+      })
       .signers([authority])
       .rpc();
 
@@ -95,23 +138,22 @@ describe("sentinel", () => {
       .accounts({
         rail: railPda,
         authority: authority.publicKey,
-      } as any)
+      })
       .signers([authority])
       .rpc();
 
-    const railAccount = await program.account.railState.fetch(railPda);
-    expect(railAccount.isSealed).to.be.true;
+    const account = await (program.account as any).railState.fetch(railPda);
+    expect(account.isSealed).to.be.true;
   });
 
   it("security_unauthorized", async () => {
     const authority = anchor.web3.Keypair.generate();
     await fundAccount(authority.publicKey);
 
+    const authorityTokenAccount = await setupTokenAccount(authority);
+
     const [railPda] = anchor.web3.PublicKey.findProgramAddressSync(
-      [
-        anchor.utils.bytes.utf8.encode("rail"),
-        authority.publicKey.toBuffer()
-      ],
+      [anchor.utils.bytes.utf8.encode("rail"), authority.publicKey.toBuffer()],
       program.programId
     );
 
@@ -120,8 +162,10 @@ describe("sentinel", () => {
       .accounts({
         rail: railPda,
         authority: authority.publicKey,
+        authorityTokenAccount: authorityTokenAccount,
+        northMint: northMint,
         systemProgram: anchor.web3.SystemProgram.programId,
-      } as any)
+      })
       .signers([authority])
       .rpc();
 
@@ -133,12 +177,46 @@ describe("sentinel", () => {
         .accounts({
           rail: railPda,
           authority: unauthorizedUser.publicKey,
-        } as any)
+        })
         .signers([unauthorizedUser])
         .rpc();
-      expect.fail("Should have thrown unauthorized error");
+      expect.fail();
     } catch (err: any) {
-      expect(err.toString()).to.include("AnchorError");
+      expect(err.toString()).to.include("6001");
+    }
+  });
+
+  it("should_fail_without_north_tokens", async () => {
+    const authority = anchor.web3.Keypair.generate();
+    await fundAccount(authority.publicKey);
+
+    const emptyTokenAccount = await getOrCreateAssociatedTokenAccount(
+      provider.connection,
+      mintAuthority,
+      northMint,
+      authority.publicKey
+    );
+
+    const [railPda] = anchor.web3.PublicKey.findProgramAddressSync(
+      [anchor.utils.bytes.utf8.encode("rail"), authority.publicKey.toBuffer()],
+      program.programId
+    );
+
+    try {
+      await program.methods
+        .initializeRail(1, 2)
+        .accounts({
+          rail: railPda,
+          authority: authority.publicKey,
+          authorityTokenAccount: emptyTokenAccount.address,
+          northMint: northMint,
+          systemProgram: anchor.web3.SystemProgram.programId,
+        })
+        .signers([authority])
+        .rpc();
+      expect.fail();
+    } catch (err: any) {
+      expect(err.toString()).to.include("6000");
     }
   });
 });
