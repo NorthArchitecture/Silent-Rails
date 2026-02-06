@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token_interface::{TokenAccount, Mint, TokenInterface};
 
-declare_id!("ABXXfFPfPhha6KFSQVz9i3FSQ9DSPEk4w585bHkp7U42");
+declare_id!("2irwJBqfhchJSgCFVr3APxv1wfgpF2bwS9EkeyNfY55a");
 
 #[program]
 pub mod sentinel {
