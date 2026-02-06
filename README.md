@@ -73,21 +73,28 @@ North Architecture is engineered for institutional-grade reliability, leveraging
 
 ### 🛠️ Installation & Build
 ```bash
-
 # 1. Clone the repository
 git clone https://github.com/NorthArchitecture/Silent-Rails
 cd Silent-Rails
 
-# 2. Build the Sentinel program
-# We use the SBF (Solana Binary Format) direct build for maximum reliability
-cargo build-sbf --manifest-path programs/sentinel/Cargo.toml
+# 2. Install dependencies
+npm install
 
-# 3. Verification
+# 3. Build the Sentinel program
+anchor build
+
+# 4. Verification
 # After a successful build, you can verify the generated artifacts in:
 # - Binary (SBF): ./target/deploy/sentinel.so
 # - IDL (Interface): ./target/idl/sentinel.json
+# - TypeScript types: ./target/types/sentinel.ts
 ```
 
+### Prerequisites
+- **Anchor CLI**: 0.32.0
+- **Solana CLI**: 2.3.0
+- **Rust**: 1.85.0
+- **Node.js**: 18+
 ---
 
 ## 🚀 Roadmap: The Path to North V2
