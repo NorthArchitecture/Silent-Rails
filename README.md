@@ -13,11 +13,11 @@
 > **PROPRIETARY ARCHITECTURE & LICENSING**
 > 
 > This repository is protected under the **Sovereign Institutional License**. 
-> - **Commercial use** is strictly prohibited without written consent.
-> - **Production deployment** is gated and will require the **$NORTH** token (integration in progress).
-> - **Institutional Rights**: All O(1) PDA Registry logic and Sentinel-Core designs are the exclusive intellectual property of North Architecture.
+> - **Commercial Use**: Strictly prohibited without explicit written consent from North Architecture.
+> - **Access Control**: Production deployment is natively gated. Integration of the **$NORTH** utility layer is complete; valid token-collateral is required for rail activation.
+> - **Institutional Rights**: All O(1) PDA Registry logic, Scoped Nullifier designs, and Sentinel-Core architectures are the exclusive intellectual property of North Architecture.
 > 
-> *Unauthorized forks or commercial exploitations will be subject to legal action.*
+> *Unauthorized forks, reverse-engineering, or commercial exploitations will be subject to immediate legal action.*
 
 ---
 
@@ -120,7 +120,7 @@ The **Sentinel Core V2 (Privacy Native)** engine is strictly validated through a
 ## 🚀 Roadmap: The Path to North V2
 The decoupled architecture is designed to integrate deep cryptographic layers without breaking core performance:
 
-* **Phase 1 (Completed) ✅**: **Sentinel Core Logic V2**. Implementation of the $O(1)$ Nullifier Registry and the Audit-Seal mechanism.
+* **Phase 1 (Completed) ✅**: **Sentinel Core Logic V2**. Implementation of the O(1) Nullifier Registry and the Audit-Seal mechanism.
 * **Phase 2 (Completed) ✅**: **Intensive Test Suite**. Full coverage for edge-cases (Double-spend, Seal bypass, Authority takeover) validated on `solana-test-validator`.
 * **Phase 3 (Completed) ✅**: **Privacy Native & ZK-Engine**. Integration of **Zero-Knowledge Vaults** and on-chain verification of 128-byte encrypted state proofs.
 * **Phase 4 (NEXT) 📈**: **Institutional Scaling (ZK-Compression)**. Implementation of **State Compression** to maintain ultra-low rent costs while scaling to millions of institutional handshakes.
