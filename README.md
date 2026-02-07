@@ -20,17 +20,17 @@
 > *Unauthorized forks or commercial exploitations will be subject to legal action.*
 
 ---
+
 # 🏛️ $NORTH | Silent Rails
+**The Sovereign Standard for Institutional Privacy on Solana.**
 
-**Privacy is not a feature, it’s a sovereign right. While others build public mixers, Sentinel Core deploys private rails. We provide the world’s financial institutions with their own cryptographically sealed tunnels—isolated, un-traceable, and ultra-fast. No shared pools. No risk of contamination. Just pure, institutional-grade silence.**
+### **The Innovation**
+$NORTH replaces legacy Merkle Tree mixers with **Silent Rails**: a high-capacity privacy layer powered by an **O(1) PDA Registry**. We deliver zero-knowledge confidential settlements at the speed of light, maintaining Solana’s **sub-400ms finality** without overhead.
 
----
-# 🏛️ $NORTH | Silent Rails (V2)
-
-**Native Privacy Infrastructure for Solana.** Sentinel Core is the invisible standard for institutional-grade confidential settlements, delivering zero-knowledge privacy at the speed of light.
-
-## 🌏 The Vision
-Most privacy solutions on Solana compromise performance. **$NORTH** introduces "Silent Rails"—a high-capacity privacy layer that leverages an **O(1) PDA Registry** to maintain Solana's sub-400ms finality without the overhead of Merkle Trees.
+### **Core Pillars**
+* **Isolated Tunnels:** Cryptographically sealed private rails. No shared pools, zero contamination risk.
+* **Institutional Silence:** Un-traceable, sovereign-grade privacy designed for professional settlements.
+* **Native Performance:** Native Solana speed with zero performance compromise.
 
 ---
 
