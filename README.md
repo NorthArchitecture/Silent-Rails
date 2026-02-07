@@ -127,5 +127,4 @@ The decoupled architecture is designed to integrate deep cryptographic layers wi
 * **Phase 5 🛡️**: **Cross-Rail Orchestration**. Deployment of a multi-rail bridging protocol for inter-institutional private liquidity and encrypted settlement layers.
 
 ---
-
 *Built for the Solana Privacy Hack 2026.*
