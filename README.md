@@ -93,15 +93,19 @@ anchor build
 
 The **Sentinel Core V2** engine is strictly validated through a dedicated integration test suite. This ensures the protocol remains ultra-secure and reliable for institutional requirements.
 
-### ✅ Automated Test Suite (`tests/sentinel.ts`)
-* **✔ 1. initialize_rail** – Validates private infrastructure deployment and authority binding.
-* **✔ 2. create_handshake_and_seal** – Confirms data anchoring and the "Audit Seal" compliance state change.
-* **✔ 3. security_unauthorized** – Verifies protection against unauthorized access attempts.
-* **✔ 4. should_fail_without_north_tokens** – Enforces the NORTH token gatekeeping mechanism.
+### ✅ Institutional Security Suite (`tests/sentinel.ts`)
+* **✔ 1. initialize_rail** – Validates private infrastructure deployment and cryptographic authority binding.
+* **✔ 2. verify_authority_mapping** – Confirms $O(1)$ ownership integrity within the Solana account state.
+* **✔ 3. create_handshake_pda** – Validates data anchoring and secure Proof Registry generation.
+* **✔ 4. prevent_double_spend_replay** – Active protection against replay attacks via *Nullifier Registry* enforcement.
+* **✔ 5. block_unauthorized_access** – Verifies hermetic lockdown against third-party intrusion attempts.
+* **✔ 6. check_insufficient_funds** – Enforces the $NORTH$ token gatekeeping mechanism for system access.
+* **✔ 7. seal_rail_immutability** – Confirms final "Audit-Seal" state, preventing any post-deployment tampering.
+* **✔ 8. verify_o1_compliance** – Final validation of operational status and protocol compliance.
 
-> **Status:** 4/4 Integration Tests Passed 🟢  
-> **Environment:** Solana Localnet / Test-Validator  
-> **Last Verified:** 2026-02-06
+> **Status:** 8/8 Security Tests Passed 🟢  
+> **Environment:** Solana Localnet / Anchor Framework  
+> **Last Verified:** 2026-02-07 (Sentinel Core V1 Stable)
 
 ### Prerequisites
 - **Anchor CLI**: 0.32.0
@@ -114,8 +118,8 @@ The **Sentinel Core V2** engine is strictly validated through a dedicated integr
 The decoupled architecture is designed to integrate deep cryptographic layers without breaking core performance:
 
 * **Phase 1 (Completed) ✅**: **Sentinel Core Logic V2**. Implementation of the O(1) Nullifier Registry and the Audit Seal mechanism.
-* **Phase 2 (NEXT) 🛠️**: **Intensive Test Suite**. Full coverage for edge-cases (Double-spend, Seal bypass, Authority takeover) validated on `solana-test-validator`.
-* **Phase 3 🌑**: **Native ZK-Verification**. Integration of the **Solana ZK-Token SDK** for on-chain verification of anchored evidence.
+* **Phase 2 (Completed) ✅**: **Intensive Test Suite**. Full coverage for edge-cases (Double-spend, Seal bypass, Authority takeover) validated on `solana-test-validator`.
+* **Phase 3 (NEXT) 🌑**: **Native ZK-Verification**. Integration of the **Solana ZK-Token SDK** for on-chain verification of anchored evidence.
 * **Phase 4 📈**: **Institutional Scaling**. Implementation of **ZK-Compression** to maintain ultra-low rent costs during heavy institutional scaling.
 
 ---
