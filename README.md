@@ -91,36 +91,41 @@ anchor build
 ```
 ## 🧪 Testing & Verification
 
-The **Sentinel Core V2** engine is strictly validated through a dedicated integration test suite. This ensures the protocol remains ultra-secure and reliable for institutional requirements.
+The **Sentinel Core V2 (Privacy Native)** engine is strictly validated through an advanced integration test suite. This ensures the protocol meets the highest security and privacy standards for institutional-grade financial infrastructure.
 
-### ✅ Institutional Security Suite (`tests/sentinel.ts`)
-* **✔ 1. initialize_rail** – Validates private infrastructure deployment and cryptographic authority binding.
-* **✔ 2. verify_authority_mapping** – Confirms $O(1)$ ownership integrity within the Solana account state.
-* **✔ 3. create_handshake_pda** – Validates data anchoring and secure Proof Registry generation.
-* **✔ 4. prevent_double_spend_replay** – Active protection against replay attacks via *Nullifier Registry* enforcement.
-* **✔ 5. block_unauthorized_access** – Verifies hermetic lockdown against third-party intrusion attempts.
-* **✔ 6. check_insufficient_funds** – Enforces the $NORTH$ token gatekeeping mechanism for system access.
-* **✔ 7. seal_rail_immutability** – Confirms final "Audit-Seal" state, preventing any post-deployment tampering.
-* **✔ 8. verify_o1_compliance** – Final validation of operational status and protocol compliance.
+### ✅ Institutional Security & Privacy Suite (`tests/sentinel.ts`)
 
-> **Status:** 8/8 Security Tests Passed 🟢  
+* **✔ 1-2. Rail & Authority Integrity** – Private infrastructure deployment and cryptographic authority binding.
+* **✔ 3-5. ZK-Vault Anchoring & Access** – Initialization of encrypted vaults and hermetic isolation against unauthorized initialization.
+* **✔ 6-7. Double-Spend Protection** – Active mitigation of replay attacks through *Nullifier Registry* anchoring.
+* **✔ 8-9. Security Lockdown & Gatekeeping** – Intrusion attempt blocking and $NORTH$ token-gated access enforcement.
+* **✔ 10-12. Operational Lifecycle Control** – Real-time compliance management via Pause/Unpause state enforcement.
+* **✔ 13. Confidential State Update** – **[CRITICAL]** ZK-Engine validation. Secure balance updates using 128-byte Zero-Knowledge Proofs.
+* **✔ 14. Audit-Seal Immutability** – Final "Audit-Seal" state confirmation, rendering Rail parameters tamper-proof post-deployment.
+* **✔ 15. O1 Compliance Status** – Final validation of operational health and protocol compliance.
+
+> **Status:** 15/15 Security & Privacy Tests Passed 🟢  
+> **Protocol Version:** Phase 3 - Privacy Native Stable  
 > **Environment:** Solana Localnet / Anchor Framework  
-> **Last Verified:** 2026-02-07 (Sentinel Core V1 Stable)
+> **Last Verified:** 2026-02-07 (Sentinel Final Phase 3)
 
 ### Prerequisites
 - **Anchor CLI**: 0.32.0
 - **Solana CLI**: 2.3.0
 - **Rust**: 1.85.0
 - **Node.js**: 18+
+
 ---
 
 ## 🚀 Roadmap: The Path to North V2
 The decoupled architecture is designed to integrate deep cryptographic layers without breaking core performance:
 
-* **Phase 1 (Completed) ✅**: **Sentinel Core Logic V2**. Implementation of the O(1) Nullifier Registry and the Audit Seal mechanism.
+* **Phase 1 (Completed) ✅**: **Sentinel Core Logic V2**. Implementation of the $O(1)$ Nullifier Registry and the Audit-Seal mechanism.
 * **Phase 2 (Completed) ✅**: **Intensive Test Suite**. Full coverage for edge-cases (Double-spend, Seal bypass, Authority takeover) validated on `solana-test-validator`.
-* **Phase 3 (NEXT) 🌑**: **Native ZK-Verification**. Integration of the **Solana ZK-Token SDK** for on-chain verification of anchored evidence.
-* **Phase 4 📈**: **Institutional Scaling**. Implementation of **ZK-Compression** to maintain ultra-low rent costs during heavy institutional scaling.
+* **Phase 3 (Completed) ✅**: **Privacy Native & ZK-Engine**. Integration of **Zero-Knowledge Vaults** and on-chain verification of 128-byte encrypted state proofs.
+* **Phase 4 (NEXT) 📈**: **Institutional Scaling (ZK-Compression)**. Implementation of **State Compression** to maintain ultra-low rent costs while scaling to millions of institutional handshakes.
+* **Phase 5 🛡️**: **Cross-Rail Orchestration**. Deployment of a multi-rail bridging protocol for inter-institutional private liquidity and encrypted settlement layers.
 
 ---
+
 *Built for the Solana Privacy Hack 2026.*
