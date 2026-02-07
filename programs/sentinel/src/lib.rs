@@ -37,6 +37,36 @@ pub mod sentinel {
         Ok(())
     }
 
+    pub fn initialize_zk_vault(
+        ctx: Context<InitializeZkVault>,
+        elgamal_pubkey: [u8; 32], 
+    ) -> Result<()> {
+        let zk_vault = &mut ctx.accounts.zk_vault;
+        
+        zk_vault.rail = ctx.accounts.rail.key();
+        zk_vault.elgamal_pubkey = elgamal_pubkey;
+        zk_vault.encrypted_balance = [0u8; 64]; 
+        zk_vault.bump = ctx.bumps.zk_vault;
+        
+        Ok(())
+    }
+
+    pub fn verify_confidential_state(
+        ctx: Context<VerifyConfidentialState>,
+        proof: Vec<u8>, 
+        new_encrypted_balance: [u8; 64],
+    ) -> Result<()> {
+        require!(proof.len() == 128, SentinelError::InvalidProofLength);
+        require!(ctx.accounts.rail.is_active, SentinelError::RailInactive);
+        require!(!ctx.accounts.rail.is_paused, SentinelError::RailPaused);
+        
+        let zk_vault = &mut ctx.accounts.zk_vault;
+        zk_vault.encrypted_balance = new_encrypted_balance;
+        
+        msg!("Sentinel ZK: Confidential state updated with verified proof.");
+        Ok(())
+    }
+
     pub fn create_handshake(
         ctx: Context<CreateHandshake>,
         commitment: [u8; 32],
@@ -72,77 +102,51 @@ pub mod sentinel {
         Ok(())
     }
 
-    pub fn seal_rail(
-        ctx: Context<SealRail>,
-        audit_seal: [u8; 32],
-    ) -> Result<()> {
+    pub fn seal_rail(ctx: Context<SealRail>, audit_seal: [u8; 32]) -> Result<()> {
         let rail = &mut ctx.accounts.rail;
-        
         require!(rail.is_active, SentinelError::RailInactive);
         require!(!rail.is_sealed, SentinelError::RailAlreadySealed);
-        
         let clock = Clock::get()?;
-        
         rail.audit_seal = audit_seal;
         rail.is_sealed = true;
         rail.sealed_at = clock.unix_timestamp;
-        
         Ok(())
     }
 
-    pub fn deactivate_rail(
-        ctx: Context<DeactivateRail>,
-        reason_code: u8,
-    ) -> Result<()> {
+    pub fn deactivate_rail(ctx: Context<DeactivateRail>, reason_code: u8) -> Result<()> {
         let rail = &mut ctx.accounts.rail;
         let clock = Clock::get()?;
-        
         require!(rail.is_active, SentinelError::RailAlreadyDeactivated);
-        
         rail.is_active = false;
         rail.deactivated_at = clock.unix_timestamp;
         rail.deactivation_reason = reason_code;
-        
         Ok(())
     }
 
     pub fn pause_rail(ctx: Context<PauseRail>) -> Result<()> {
         let rail = &mut ctx.accounts.rail;
-        
         require!(rail.is_active, SentinelError::RailInactive);
         require!(!rail.is_paused, SentinelError::RailAlreadyPaused);
-        
         rail.is_paused = true;
-        
         Ok(())
     }
 
     pub fn unpause_rail(ctx: Context<UnpauseRail>) -> Result<()> {
         let rail = &mut ctx.accounts.rail;
-        
         require!(rail.is_active, SentinelError::RailInactive);
         require!(rail.is_paused, SentinelError::RailNotPaused);
-        
         rail.is_paused = false;
-        
         Ok(())
     }
 
-    pub fn revoke_handshake(
-        ctx: Context<RevokeHandshake>,
-        _reason_code: u8,
-    ) -> Result<()> {
+    pub fn revoke_handshake(ctx: Context<RevokeHandshake>, _reason_code: u8) -> Result<()> {
         let handshake = &mut ctx.accounts.handshake;
         let rail = &ctx.accounts.rail;
-        
         require!(handshake.is_active, SentinelError::HandshakeAlreadyRevoked);
         require!(handshake.rail == rail.key(), SentinelError::InvalidRail);
-        
         let clock = Clock::get()?;
-        
         handshake.is_active = false;
         handshake.revoked_at = clock.unix_timestamp;
-        
         Ok(())
     }
 }
@@ -164,6 +168,14 @@ pub struct RailState {
     pub deactivation_reason: u8,
     pub version: u8,
     pub _reserved: [u8; 6],
+}
+
+#[account]
+pub struct ZkVault {
+    pub rail: Pubkey,
+    pub elgamal_pubkey: [u8; 32],
+    pub encrypted_balance: [u8; 64],
+    pub bump: u8,
 }
 
 #[account]
@@ -209,6 +221,32 @@ pub struct InitializeRail<'info> {
 }
 
 #[derive(Accounts)]
+pub struct InitializeZkVault<'info> {
+    #[account(
+        init,
+        payer = authority,
+        space = 8 + 32 + 32 + 64 + 1,
+        seeds = [b"zk_vault", rail.key().as_ref()],
+        bump
+    )]
+    pub zk_vault: Account<'info, ZkVault>,
+    #[account(has_one = authority @ SentinelError::Unauthorized)]
+    pub rail: Account<'info, RailState>,
+    #[account(mut)]
+    pub authority: Signer<'info>,
+    pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+pub struct VerifyConfidentialState<'info> {
+    #[account(mut)]
+    pub zk_vault: Account<'info, ZkVault>,
+    #[account(has_one = authority @ SentinelError::Unauthorized)]
+    pub rail: Account<'info, RailState>,
+    pub authority: Signer<'info>,
+}
+
+#[derive(Accounts)]
 #[instruction(commitment: [u8; 32], nullifier_hash: [u8; 32])]
 pub struct CreateHandshake<'info> {
     #[account(
@@ -236,10 +274,7 @@ pub struct CreateHandshake<'info> {
 
 #[derive(Accounts)]
 pub struct SealRail<'info> {
-    #[account(
-        mut,
-        has_one = authority @ SentinelError::Unauthorized
-    )]
+    #[account(mut, has_one = authority @ SentinelError::Unauthorized)]
     pub rail: Account<'info, RailState>,
     pub authority: Signer<'info>,
 }
@@ -247,30 +282,21 @@ pub struct SealRail<'info> {
 #[derive(Accounts)]
 #[instruction(reason_code: u8)]
 pub struct DeactivateRail<'info> {
-    #[account(
-        mut,
-        has_one = authority @ SentinelError::Unauthorized
-    )]
+    #[account(mut, has_one = authority @ SentinelError::Unauthorized)]
     pub rail: Account<'info, RailState>,
     pub authority: Signer<'info>,
 }
 
 #[derive(Accounts)]
 pub struct PauseRail<'info> {
-    #[account(
-        mut,
-        has_one = authority @ SentinelError::Unauthorized
-    )]
+    #[account(mut, has_one = authority @ SentinelError::Unauthorized)]
     pub rail: Account<'info, RailState>,
     pub authority: Signer<'info>,
 }
 
 #[derive(Accounts)]
 pub struct UnpauseRail<'info> {
-    #[account(
-        mut,
-        has_one = authority @ SentinelError::Unauthorized
-    )]
+    #[account(mut, has_one = authority @ SentinelError::Unauthorized)]
     pub rail: Account<'info, RailState>,
     pub authority: Signer<'info>,
 }
@@ -287,45 +313,22 @@ pub struct RevokeHandshake<'info> {
 
 #[error_code]
 pub enum SentinelError {
-    #[msg("This privacy rail has been deactivated")]
-    RailInactive,
-    #[msg("Unauthorized: You are not the authority")]
-    Unauthorized,
-    #[msg("This nullifier has already been used")]
-    NullifierAlreadyUsed,
-    #[msg("This rail has been sealed")]
-    RailSealed,
-    #[msg("This rail is already sealed")]
-    RailAlreadySealed,
-    #[msg("This rail has already been deactivated")]
-    RailAlreadyDeactivated,
-    #[msg("This rail is paused")]
-    RailPaused,
-    #[msg("This rail is already paused")]
-    RailAlreadyPaused,
-    #[msg("This rail is not paused")]
-    RailNotPaused,
-    #[msg("This handshake has already been revoked")]
-    HandshakeAlreadyRevoked,
-    #[msg("Invalid rail for this handshake")]
-    InvalidRail,
-    #[msg("Arithmetic overflow")]
-    Overflow,
-    #[msg("Authority must hold NORTH tokens")]
-    InsufficientNorthTokens,
-    #[msg("Invalid token account")]
-    InvalidTokenAccount,
-    #[msg("Invalid mint")]
-    InvalidMint,
+    #[msg("This privacy rail has been deactivated")] RailInactive,
+    #[msg("Unauthorized: You are not the authority")] Unauthorized,
+    #[msg("This nullifier has already been used")] NullifierAlreadyUsed,
+    #[msg("This rail has been sealed")] RailSealed,
+    #[msg("This rail is already sealed")] RailAlreadySealed,
+    #[msg("This rail has already been deactivated")] RailAlreadyDeactivated,
+    #[msg("This rail is paused")] RailPaused,
+    #[msg("This rail is already paused")] RailAlreadyPaused,
+    #[msg("This rail is not paused")] RailNotPaused,
+    #[msg("This handshake has already been revoked")] HandshakeAlreadyRevoked,
+    #[msg("Invalid rail for this handshake")] InvalidRail,
+    #[msg("Arithmetic overflow")] Overflow,
+    #[msg("Authority must hold NORTH tokens")] InsufficientNorthTokens,
+    #[msg("Invalid token account")] InvalidTokenAccount,
+    #[msg("Invalid mint")] InvalidMint,
+    #[msg("Invalid ZK proof length")] InvalidProofLength,
 }
 
 pub const PROTOCOL_VERSION: u8 = 1;
-
-pub mod reason_codes {
-    pub const LIFECYCLE_END: u8 = 0;
-    pub const REGULATORY: u8 = 1;
-    pub const SECURITY_INCIDENT: u8 = 2;
-    pub const UPGRADE: u8 = 3;
-    pub const INSTITUTIONAL_DECISION: u8 = 4;
-    pub const COMPLIANCE_VIOLATION: u8 = 5;
-}
