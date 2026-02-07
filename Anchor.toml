@@ -10,6 +10,9 @@ seeds = true
 [programs.localnet]
 sentinel = "2irwJBqfhchJSgCFVr3APxv1wfgpF2bwS9EkeyNfY55a"
 
+[programs.devnet]
+sentinel = "2irwJBqfhchJSgCFVr3APxv1wfgpF2bwS9EkeyNfY55a"
+
 [registry]
 url = "https://api.apr.dev"
 
