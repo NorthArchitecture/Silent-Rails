@@ -1,32 +1,70 @@
-Sovereign Institutional License - North Architecture
+Sovereign Institutional License (SIL) v1.0 - North Architecture
+SPDX-License-Identifier: LicenseRef-NorthArchitecture-SIL-1.0
 
-Copyright (c) 2026 North_Protocol ($NORTH)
+Copyright (c) 2026 North Architecture.
+All rights reserved.
 
-1. PROPRIETARY RIGHTS
-The software and documentation, including the O(1) PDA Registry logic, 
-Sentinel-Core architecture, and Audit Seal mechanisms, are the sole 
-intellectual property of North Architecture.
+1. DEFINITIONS
+"Licensor" means North Architecture.
+"Software" means this repository, source code, binaries, circuits, APIs, interfaces, documentation, and related artifacts.
+"Production Use" means any live, customer-facing, institutional, revenue-generating, or operational deployment, including on Solana Mainnet.
+"Commercial Use" means any use intended for direct or indirect economic benefit.
 
-2. PERMITTED USE
-Permission is hereby granted for:
-- Academic research and individual auditing.
-- Non-commercial testing on Solana Devnet/Testnet.
+2. OWNERSHIP
+The Software, including but not limited to O(1) PDA Registry logic, Sentinel-Core architecture, ZK integration, audit-seal mechanisms, and related know-how, is and remains the exclusive intellectual property of the Licensor.
+No ownership rights are transferred under this License.
 
-3. RESTRICTIONS
-The following actions are STRICTLY PROHIBITED without explicit written 
-consent from North Architecture or through the official $NORTH token 
-governance mechanism (pending):
-- Use of the Software for commercial purposes or for-profit services.
-- Distribution, sublicensing, or selling of the Software.
-- Deployment of the Software on Solana Mainnet for institutional use.
+3. LIMITED PERMITTED USE
+Subject to full compliance with this License, the Licensor grants a limited, revocable, non-exclusive, non-transferable, non-sublicensable license solely for:
+- personal or academic research;
+- security review and auditing;
+- non-commercial testing on Solana localnet, devnet, or testnet.
 
-4. MONETIZATION & TOKEN-GATING
-The author reserves the right to implement an access-control layer 
-requiring the $NORTH token for production-grade environments. 
-Any fork attempting to bypass this layer is considered a violation 
-of this license.
+4. PROHIBITED USES
+Without prior written authorization from the Licensor, you must not:
+- use the Software for any Commercial Use;
+- use the Software for Production Use;
+- deploy the Software on Solana Mainnet for institutional or customer operations;
+- sell, sublicense, rent, lease, host, or provide the Software as a service;
+- distribute modified or unmodified versions for commercial purposes;
+- remove, alter, or obscure copyright, license, trademark, or attribution notices;
+- attempt to bypass technical access controls or monetization controls implemented by the Licensor.
 
-5. NO WARRANTY
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND. 
-IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES 
-OR OTHER LIABILITY.
+5. ACCESS CONTROL AND TOKEN-GATED OPERATIONS
+The Licensor may implement technical access controls, including token-based controls, for production-grade environments.
+Any circumvention or attempted circumvention of such controls constitutes a material breach of this License.
+
+6. DERIVATIVE WORKS
+You may create internal modifications only for the permitted non-commercial purposes under Section 3.
+You may not commercially exploit or commercially distribute derivative works without prior written authorization from the Licensor.
+
+7. TRADEMARKS AND BRANDING
+This License does not grant any right to use the Licensor's names, logos, marks, trade dress, or branding, except for factual attribution.
+
+8. COMPLIANCE AND EXPORT
+You are solely responsible for compliance with applicable laws and regulations, including sanctions, AML/CFT, privacy, data protection, and export controls.
+Nothing in this License authorizes unlawful use.
+
+9. DISCLAIMER OF WARRANTIES
+THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, NON-INFRINGEMENT, SECURITY, OR REGULATORY FITNESS.
+
+10. LIMITATION OF LIABILITY
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE LICENSOR SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES, OR FOR ANY LOSS OF PROFITS, REVENUE, DATA, BUSINESS, GOODWILL, OR OPPORTUNITY, ARISING FROM OR RELATED TO THE SOFTWARE OR THIS LICENSE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+IN ALL CASES, THE LICENSOR'S TOTAL LIABILITY SHALL NOT EXCEED ONE HUNDRED EUROS (EUR 100).
+
+11. INDEMNIFICATION
+You agree to defend, indemnify, and hold harmless the Licensor from and against claims, liabilities, losses, damages, and costs arising from your use of the Software, your breach of this License, or your violation of law.
+
+12. TERM AND TERMINATION
+This License is effective until terminated.
+It terminates automatically upon breach.
+Upon termination, you must immediately cease all use of the Software and destroy all copies in your possession or control, except where retention is required by law.
+Sections 2, 4, 5, 7, 9, 10, 11, 13, and 14 survive termination.
+
+13. GOVERNING LAW AND JURISDICTION
+This License is governed by the laws of France, excluding conflict-of-law rules.
+Any dispute arising out of or relating to this License shall be subject to the exclusive jurisdiction of the courts of Paris, France.
+
+14. ENTIRE AGREEMENT AND AMENDMENTS
+This License constitutes the entire agreement regarding the Software and supersedes prior statements on licensing of the Software.
+Any waiver or amendment must be in writing and signed by the Licensor.
