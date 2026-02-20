@@ -1,0 +1,27 @@
+[package]
+name = "sentinel"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "sentinel"
+
+[features]
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
+no-entrypoint = []
+cpi = ["no-entrypoint"]
+no-idl = []
+no-log-ix-name = []
+anchor-debug = []
+custom-heap = []
+custom-panic = []
+
+[dependencies]
+anchor-lang = { version = "0.31.1", features = ["init-if-needed"] }
+anchor-spl = "0.31.1"
+solana-program = "=2.1.0"
+solana-zk-token-sdk = "=2.1.0"
+solana-bn254 = "=2.1.0"
+subtle = "=2.6.1"
+getrandom = { version = "0.2", features = ["js"] }

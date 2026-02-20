@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Anchor build artifacts
+target/
+.anchor/
+
+# ZK build artifacts (regenerable via setup.sh)
+build/
+
+# Circom compiler (local install)
+circom/
+
+# Circuit dependencies (regenerable via npm install)
+circuits/node_modules/
+circuits/package-lock.json
+
+# Security - private keys
+ma-cle-pro.json
+*.keypair.json
+id.json
+id/
+.env
+
+# Frontend (separate project)
+frontend/
+landing/
+scripts/
+.cursorrules
+solana-install-init-*
+
+# OS
+.DS_Store
+
+# Test artifacts
+test-ledger/

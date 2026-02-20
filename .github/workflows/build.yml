@@ -1,0 +1,30 @@
+name: Build Solana Program
+
+on:
+  push:
+    branches: 
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: projectserum/build:v0.27.0
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Build Program
+        run: |
+          anchor build
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: solana-program
+          path: |
+            target/deploy/*.so
+            target/idl/*.json

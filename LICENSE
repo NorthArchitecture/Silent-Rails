@@ -1,0 +1,32 @@
+Sovereign Institutional License - North Architecture
+
+Copyright (c) 2026 North_Protocol ($NORTH)
+
+1. PROPRIETARY RIGHTS
+The software and documentation, including the O(1) PDA Registry logic, 
+Sentinel-Core architecture, and Audit Seal mechanisms, are the sole 
+intellectual property of North Architecture.
+
+2. PERMITTED USE
+Permission is hereby granted for:
+- Academic research and individual auditing.
+- Non-commercial testing on Solana Devnet/Testnet.
+
+3. RESTRICTIONS
+The following actions are STRICTLY PROHIBITED without explicit written 
+consent from North Architecture or through the official $NORTH token 
+governance mechanism (pending):
+- Use of the Software for commercial purposes or for-profit services.
+- Distribution, sublicensing, or selling of the Software.
+- Deployment of the Software on Solana Mainnet for institutional use.
+
+4. MONETIZATION & TOKEN-GATING
+The author reserves the right to implement an access-control layer 
+requiring the $NORTH token for production-grade environments. 
+Any fork attempting to bypass this layer is considered a violation 
+of this license.
+
+5. NO WARRANTY
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND. 
+IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES 
+OR OTHER LIABILITY.
